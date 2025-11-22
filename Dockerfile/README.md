@@ -1,4 +1,4 @@
-🐳 Dockerfile Nedir?
+🐳 **Dockerfile Nedir?**
 
 Dockerfile, bir Docker imajını oluşturmak için kullanılan metin tabanlı talimat dosyasıdır.
 Her satır, imajın nasıl inşa edileceğini ve container çalıştırıldığında ne yapacağını belirler.
