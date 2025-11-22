@@ -1,0 +1,27 @@
+# Temel imaj olarak Ubuntu kullanıyoruz
+FROM ubuntu
+
+# Paket listesini güncelliyoruz
+RUN apt-get -y update
+
+# Sistemdeki mevcut paketleri en son sürüme yükseltiyoruz
+RUN apt-get -y upgrade
+
+# Nano editörünü yüklüyoruz
+RUN apt-get -y install nano
+
+# Python3 ve pip'i yüklüyoruz
+RUN apt-get -y install python3 python3-pip
+
+# Proje dosyalarını konteyner içine /app klasörüne kopyalıyoruz
+COPY . /app
+
+# Çalışma dizinini /app olarak ayarlıyoruz
+WORKDIR /app
+
+
+# 5000 portunu dışarıya açıyoruz (Flask/Django gibi uygulamalar için)
+EXPOSE 5000
+
+# Container çalıştığında ilk olarak bu komut tetiklenir
+ENTRYPOINT echo "This is the entrypoint example"

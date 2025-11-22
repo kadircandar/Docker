@@ -1,0 +1,12 @@
+include:
+  - infra.yaml  # Ortak ayarları içeren başka bir YAML dosyasını dahil ediyoruz
+services:             # Servislerimizi (konteynerleri) burada listeliyoruz
+  web:                # Servisimizin adı (istediğini verebilirsin)
+    build: .          # Dockerfile'ın bulunduğu dizini belirtir
+    ports:
+      - "8000:5000"   # Bilgisayarımın 8000 portunu, konteynerin 5000 portuna bağla.
+    develop:  # Geliştirme ortamı için ek ayarlar
+      watch:  # Dosya değişikliklerini izlemek için
+        - action: sync   # Değişiklikleri senkronize et
+          path: .     # İzlenecek dizin
+          target: /code  # Hedef dizin konteyner içinde

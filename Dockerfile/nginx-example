@@ -1,0 +1,18 @@
+# 1. Nginx imajını kullan
+FROM nginx:alpine
+
+# 2. Varsayılan Nginx statik dosyalarını sil (Temizlik)
+RUN rm -rf /usr/share/nginx/html/*
+
+# 3. Kendi HTML/CSS dosyalarını Nginx'in yayın klasörüne kopyala
+COPY ./html /usr/share/nginx/html
+
+# 4. Nginx varsayılan olarak 80 portunu açar ve CMD komutuyla başlar,
+# bu yüzden ekstra CMD yazmaya gerek yoktur.
+EXPOSE 80
+
+
+#Docker Image Çalıştırmak İçin Adımlar:
+# 1. docker build -f nginx-example -t nginx-example .   -> Image oluştur
+# 2. docker run -d -p 3000:80 nginx-example             -> Container'ı başlat ve 3000 portunu 80 portuna yönlendir
+# 3. Tarayıcıda http://localhost:3000/nginx.html        -> adresine git ve sonucu görüntüle.

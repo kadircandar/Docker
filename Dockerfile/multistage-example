@@ -1,0 +1,41 @@
+# --------------------------------------------------------------------------------
+# AŞAMA 1: OLUŞTURUCU (BUILDER)
+# Bu aşama, metin dosyasını oluşturmak için gerekli olan "sh" kabuğuna sahiptir.
+# --------------------------------------------------------------------------------
+
+# 1. FROM: "builder" olarak adlandırılan bir aşama başlat.
+FROM alpine:latest AS builder
+
+# 2. WORKDIR: Bu komut, /app dizinini oluşturur ve çalışma dizini olarak ayarlar.
+WORKDIR /app
+
+# 3. RUN: Bir metin dosyası oluştur.
+RUN echo "Merhaba, ben nihai uygulamayım!" > output.txt
+
+# --------------------------------------------------------------------------------
+# AŞAMA 2: ÇALIŞTIRMA (RUNNER)
+# Bu aşama sadece çalışan dosyayı içerir, hiçbir kabuk veya işletim sistemi kütüphanesi yoktur.
+# --------------------------------------------------------------------------------
+
+# 1. FROM: "scratch" (boş) imajı ile başla. Bu, mümkün olan en küçük imajdır.
+FROM scratch
+
+# 2. COPY --from=builder: SADECE output.txt dosyasını builder aşamasından kopyala.
+COPY --from=builder /app/output.txt /usr/share/message.txt
+
+# 3. CMD: Konteyner başlatıldığında dosyayı ekrana yazdır.
+# "cat" komutu "scratch" imajında olmadığı için, buraya bir dosya okuyucu komut koyamayız.
+# Bu yüzden, scratch genellikle sadece ikili (binary) dosyalar için kullanılır.
+# Daha iyi bir çalıştırma örneği için CMD'yi kaldırıp sadece dosyayı kopyalamış olalım.
+# Eğer çalıştırmak istersek, Alpine kullanmaya devam edebiliriz:
+# FROM alpine:latest AS final
+
+# Basit bir çalıştırma için Alpine'a geri dönelim:
+# --------------------------------------------------------------------------------
+FROM alpine:latest AS final
+
+# COPY --from=builder: SADECE output.txt dosyasını kopyala.
+COPY --from=builder /app/output.txt /message.txt
+
+# CMD: Konteyner başlatıldığında dosyayı ekrana yazdır.
+CMD ["cat", "/message.txt"]

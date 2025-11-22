@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Volume Nedir?</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: #0d6efd;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .content {
+            padding: 30px;
+            line-height: 1.8;
+        }
+        h2 {
+            color: #0d6efd;
+            border-bottom: 3px solid #0d6efd;
+            padding-bottom: 10px;
+        }
+        pre {
+            background: #f1f3f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border-left: 5px solid #0d6efd;
+        }
+        .tip {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Docker Volume Nedir?</h1>
+            <p>Kalıcı veri saklamanın en kolay yolu</p>
+        </header>
+
+        <div class="content">
+            <p><strong>Docker Volume</strong>, Docker container'larının içinde oluşturduğu verilerin <u>container silinse bile kaybolmamasını</u> sağlayan kalıcı depolama birimidir.</p>
+
+            <h2>Sorun Nedir?</h2>
+            <p>Normalde bir container'ı silerseniz, içindeki tüm dosyalar da silinir:</p>
+            <pre>$ docker run -it ubuntu bash
+# içinde dosya oluşturduk...
+$ docker rm <container_id>   # → Tüm veriler GİTTİ!</pre>
+
+            <h2>Çözüm: Docker Volume</h2>
+            <p>Volume kullanarak verileri container'dan bağımsız hale getiririz.</p>
+
+            <h2>En Kolay Kullanım (Tavsiye Edilen)</h2>
+            <pre># Otomatik olarak volume oluşturur ve bağlar
+docker run -d \
+  --name my-web-app \
+  -v mydata:/app/data \     # ← burası önemli
+  -p 8080:80 \
+  nginx</pre>
+
+            <h2>Diğer Volume Türleri</h2>
+            <ul>
+                <li><strong>Named Volume</strong> (önerilen): <code>-v veritabani:/var/lib/mysql</code></li>
+                <li><strong>Anonymous Volume</strong>: <code>-v /app/logs</code> (isim verilmez)</li>
+                <li><strong>Bind Mount</strong>: <code>-v /host/klasor:/container/klasor</code></li>
+            </ul>
+
+            <div class="tip">
+                <strong>İpucu:</strong> Günlük hayatta %90 <strong>named volume</strong> yeterlidir.<br>
+                <code>-v isim:/container/içindeki/yol</code> şeklinde kullanılır.
+            </div>
+
+            <h2>Pratik Örnekler</h2>
+            <pre># MySQL ile kalıcı veritabanı
+docker run -d --name mysql-db \
+  -e MYSQL_ROOT_PASSWORD=123456 \
+  -v mysql-data:/var/lib/mysql \
+  mysql:latest
+
+# WordPress sitesi (veriler kaybolmaz)
+docker run -d --name wp-site \
+  -v wp-content:/var/www/html/wp-content \
+  -p 8000:80 \
+  wordpress</pre>
+
+            <h2>Volume Komutları</h2>
+            <pre># Tüm volumeları listele
+docker volume ls
+
+# Volume detayını gör
+docker volume inspect mysql-data
+
+# Kullanılmayan volumeları temizle
+docker volume prune</pre>
+
+            <p><strong>Sonuç:</strong> Docker Volume kullanmazsanız verileriniz container ile birlikte ölür. Her zaman önemli veriler için volume kullanın!</p>
+        </div>
+
+        <footer>
+            Docker Volume basitçe anlatıldı • 2025
+        </footer>
+    </div>
+</body>
+</html>

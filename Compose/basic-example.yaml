@@ -1,0 +1,11 @@
+services:       # Servislerimizi (konteynerleri) burada listeliyoruz
+  websitesi:    # Servisimizin adı (istediğini verebilirsin)
+    image: nginx  # Hangi imajı kullanacağız?
+    ports:
+      - "3000:80" # Bilgisayarımın 3000 portunu, konteynerin 80 portuna bağla.
+
+
+
+
+
+#docker compose -f basic-example.yaml up -d ile çalıştırabilirsin (-d Docker Compose’da detached mode yani arka planda çalışma anlamına gelir.)

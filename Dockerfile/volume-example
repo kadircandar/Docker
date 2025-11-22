@@ -1,0 +1,22 @@
+# Temel imaj olarak basit bir web sunucusu ortamı kullanalım
+FROM nginx:alpine
+
+# Uygulamanın loglarının ve verilerinin tutulacağı dizinleri ayarlayalım
+WORKDIR /usr/src/app
+
+# Uygulama kodunu kopyala (örnek olarak herhangi bir dosya olabilir)
+COPY ./html/volume.html /usr/share/nginx/html
+
+# 1. VOLUME: Logların tutulacağı dizini tanımlar.
+# Buraya yazılan tüm loglar, konteyner silinse bile volume'de kalır.
+VOLUME /var/log/nginx
+
+# 2. VOLUME: Kullanıcıların yüklediği dosyaların tutulacağı dizini tanımlar.
+# Bu dizin, ana makineden kolayca erişilebilir olmalıdır.
+VOLUME /usr/src/app/uploads
+
+# Nginx'in varsayılan çalışma portunu açığa çıkarıyoruz
+EXPOSE 80
+
+# Konteyner başlatma komutu
+CMD ["nginx", "-g", "daemon off;"]
