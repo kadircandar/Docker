@@ -3,25 +3,24 @@
 Docker Swarm, birden fazla Docker makinesini tek bir sanal sistemmiş gibi yönetmenizi sağlayan yerleşik bir orkestrasyon aracıdır.
 
 
-1. Temel Kavramlar
+**1. Temel Kavramlar**
 
-    - **Node (Düğüm):** Swarm kümesine dahil olan her bir sunucu veya bilgisayardır.
-    - **Manager Node (Yönetici Düğüm):** Swarm kümesini yöneten ve görev dağıtımını kontrol eden düğümdür.
-    - **Worker Node (İşçi Düğüm):** Yönetici düğüm tarafından atanan görevleri yerine getiren düğümdür.
-    - **Service (Servis):** Swarm üzerinde çalışan uygulama bileşenleridir.
-    - **Task (Görev):** Bir servisin çalıştırdığı container örneğidir.
+- **Node (Düğüm):** Swarm kümesine dahil olan her bir sunucu veya bilgisayardır.
+- **Manager Node (Yönetici Düğüm):** Swarm kümesini yöneten ve görev dağıtımını kontrol eden düğümdür.
+- **Worker Node (İşçi Düğüm):** Yönetici düğüm tarafından atanan görevleri yerine getiren düğümdür.
+- **Service (Servis):** Swarm üzerinde çalışan uygulama bileşenleridir.
+- **Task (Görev):** Bir servisin çalıştırdığı container örneğidir.
 
-    **Docker Stack:** Docker Swarm üzerinde birden fazla servisi tek bir yığın (stack) olarak yönetmenizi sağlar. Bu, uygulamalarınızı daha kolay dağıtmanıza ve ölçeklendirmenize olanak tanır.
+**Docker Stack:** Docker Swarm üzerinde birden fazla servisi tek bir yığın (stack) olarak yönetmenizi sağlar. Bu, uygulamalarınızı daha kolay dağıtmanıza ve ölçeklendirmenize olanak tanır.
 
-    **Neden Stack Kullanıyoruz?**
-     - **Belgeleme:** stack.yml dosyası artık projenin bir belgesi oldu. "Bu sistemde ne çalışıyor?" sorusunun cevabı dosyada yazılı.
+**Neden Stack Kullanıyoruz?**
+ - **Belgeleme:** stack.yml dosyası artık projenin bir belgesi oldu. "Bu sistemde ne çalışıyor?" sorusunun cevabı dosyada yazılı.
+ - **Versiyon Kontrolü:** Bu dosyayı Git gibi sistemlerde saklayabilir, değişiklikleri takip edebilirsin.
+ - **Kolaylık:** 50 tane servisi tek komutla (docker stack deploy) başlatabilir veya güncelleyebilirsin.
 
-     - **Versiyon Kontrolü:** Bu dosyayı Git gibi sistemlerde saklayabilir, değişiklikleri takip edebilirsin.
+**Docker Secrets**: Swarm ortamında hassas bilgileri (şifreler, API anahtarları vb.) güvenli bir şekilde yönetmenizi sağlar.
 
-     - **Kolaylık:** 50 tane servisi tek komutla (docker stack deploy) başlatabilir veya güncelleyebilirsin.
-
-     **Docker Secrets**: Swarm ortamında hassas bilgileri (şifreler, API anahtarları vb.) güvenli bir şekilde yönetmenizi sağlar.
-
+<br>&nbsp;<br>
 
 | Komut                        | Açıklama                                                         |
 | ---------------------------- | ---------------------------------------------------------------- |
