@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  # 1. Servisimiz: Bildiğimiz Nginx
+  web:
+    image: nginx
+    ports:
+      - "80:80"
+    deploy:
+      replicas: 3               # 3 tane kopya istiyoruz
+      restart_policy:
+        condition: on-failure   # Çökerse yeniden başlat
+      update_config:
+        parallelism: 1          # Güncelleme yaparken teker teker yap
+        delay: 5s               # Her güncelleme arası 5 saniye bekle
+
+  # 2. Servisimiz: Swarm Visualizer (Kümeyi görselleştiren araç)
+  gorsellestirici:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager] # Sadece Manager makinede çalışsın
+
+
+
+
+# Kullanım:# 1. Docker Swarm'ı başlatın (eğer başlamadıysa):
+#    docker swarm init
+# 2. Bu dosyanın bulunduğu dizinde aşağıdaki komutu çalıştırın:
+#    docker stack deploy -c stack-demo.yml benim_stackim
+# 3. Servislerin durumunu kontrol edin:
+#    docker stack services benim_stackim
+# 4. Tarayıcınızda http://localhost adresine giderek Nginx'in çalıştığını görün.
+# 5. Tarayıcınızda http://localhost:8080 adresine giderek Swarm Visualizer'ı görün.
+# 6. İşiniz bittiğinde stack'i kaldırmak için:
+#    docker stack rm benim_stackim
+# Not: Bu örnek, Docker Swarm modunda çalıştırılmalıdır.
